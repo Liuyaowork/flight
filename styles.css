@@ -1,0 +1,999 @@
+:root {
+    --primary-color: #3f51b5;
+    --secondary-color: #ff4081;
+    --bg-color: #f5f7fa;
+    --card-color: #ffffff;
+    --text-color: #333333;
+    --text-secondary: #757575;
+    --border-radius: 12px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transition-default: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 应用容器 */
+.app-container {
+    max-width: 414px;
+    height: 896px;
+    margin: 20px auto;
+    background-color: var(--bg-color);
+    border-radius: 30px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: var(--shadow);
+}
+
+/* 头部 */
+.app-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.app-header h1 {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.header-icon {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.header-icon:hover {
+    transform: rotate(30deg);
+}
+
+/* 滚动动画的内容容器 */
+.content-wrapper {
+    height: 100%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    position: relative;
+    padding-bottom: 70px;
+}
+
+/* 计时器部分 */
+.timer-section {
+    background-color: var(--card-color);
+    border-radius: var(--border-radius);
+    margin: 16px;
+    padding: 24px 16px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timer-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.flight-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.flight-status {
+    display: inline-block;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.flight-status.not-started {
+    background-color: #9e9e9e;
+}
+
+.flight-status.in-progress {
+    background-color: #4caf50;
+}
+
+.flight-status.paused {
+    background-color: #ff9800;
+}
+
+.flight-status.completed {
+    background-color: #2196f3;
+}
+
+.flight-status.in-progress:after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(30deg);
+    animation: statusShine 3s infinite linear;
+}
+
+@keyframes statusShine {
+    0% {
+        transform: translateX(-100%) rotate(30deg);
+    }
+    100% {
+        transform: translateX(100%) rotate(30deg);
+    }
+}
+
+.timer-display {
+    font-size: 56px;
+    font-weight: 700;
+    margin: 24px 0;
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.timer-display.active {
+    animation: pulseTime 1s infinite alternate;
+}
+
+.timer-display.paused {
+    color: #ff9800;
+    animation: none;
+}
+
+@keyframes pulseTime {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 0 rgba(63, 81, 181, 0);
+    }
+    100% {
+        transform: scale(1.03);
+        text-shadow: 0 0 10px rgba(63, 81, 181, 0.3);
+    }
+}
+
+.timer-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 30px;
+}
+
+.dual-buttons {
+    justify-content: space-around;
+    padding: 0 20px;
+}
+
+.timer-button {
+    border: none;
+    border-radius: 50px;
+    min-width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+.timer-button span {
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+.timer-button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.timer-button:active:after {
+    opacity: 1;
+}
+
+.timer-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.timer-button:active {
+    transform: scale(0.95);
+}
+
+.timer-button.start-flight {
+    background-color: #4caf50;
+    color: white;
+    font-size: 18px;
+    width: 180px;
+}
+
+.timer-button.pause, .timer-button.resume {
+    background-color: #ff9800;
+    color: white;
+    font-size: 18px;
+    flex: 1;
+    max-width: 140px;
+}
+
+.timer-button.end {
+    background-color: #f44336;
+    color: white;
+    font-size: 18px;
+    flex: 1;
+    max-width: 140px;
+}
+
+/* 完成按钮动画 */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(76, 175, 80, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+    }
+}
+
+.pulse-animation {
+    animation: pulse 1.5s infinite;
+}
+
+/* 数据统计部分 */
+.stats-section {
+    margin: 16px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.stats-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stats-card {
+    background-color: var(--card-color);
+    border-radius: var(--border-radius);
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.stat-item {
+    text-align: center;
+    background-color: rgba(63, 81, 181, 0.1);
+    padding: 16px;
+    border-radius: var(--border-radius);
+    transition: var(--transition-default);
+    cursor: pointer;
+}
+
+.stat-item:hover {
+    background-color: rgba(63, 81, 181, 0.2);
+    transform: scale(1.05);
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color);
+    transition: var(--transition-default);
+}
+
+.stat-item:hover .stat-value {
+    transform: scale(1.1);
+}
+
+.stat-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* 航班记录 */
+.flight-records {
+    margin-top: 20px;
+}
+
+.record-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    border-radius: 8px;
+}
+
+.record-item:hover {
+    background-color: rgba(63, 81, 181, 0.05);
+    transform: translateX(5px);
+}
+
+.record-item:last-child {
+    border-bottom: none;
+}
+
+.record-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.record-date {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.record-duration {
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* 日历 */
+.calendar {
+    margin-top: 16px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.calendar-month {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.calendar-nav {
+    display: flex;
+    gap: 12px;
+}
+
+.calendar-nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: transform 0.2s;
+}
+
+.calendar-nav-btn:hover {
+    transform: scale(1.2);
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.day {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 14px;
+    position: relative;
+    cursor: pointer;
+    transition: var(--transition-default);
+}
+
+.day:hover {
+    background-color: rgba(63, 81, 181, 0.1);
+    transform: scale(1.1);
+}
+
+.day.has-flight {
+    background-color: rgba(63, 81, 181, 0.2);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.day.has-flight:after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+}
+
+.day.today {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    animation: pulseToday 2s infinite;
+}
+
+@keyframes pulseToday {
+    0% {
+        box-shadow: 0 0 0 0 rgba(63, 81, 181, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(63, 81, 181, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(63, 81, 181, 0);
+    }
+}
+
+.swipe-indicator {
+    text-align: center;
+    margin: 12px 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    animation: bounceDown 2s infinite;
+}
+
+@keyframes bounceDown {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(5px);
+    }
+    60% {
+        transform: translateY(3px);
+    }
+}
+
+/* 底部导航 */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 390px;
+    background-color: var(--card-color);
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    z-index: 10;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 12px;
+    transition: var(--transition-default);
+    position: relative;
+    padding: 5px 0;
+}
+
+.nav-item:before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 20px;
+    height: 3px;
+    background-color: var(--primary-color);
+    transition: transform 0.3s ease;
+    border-radius: 2px;
+}
+
+.nav-item.active {
+    color: var(--primary-color);
+}
+
+.nav-item.active:before {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.nav-item:hover {
+    transform: translateY(-3px);
+}
+
+/* 所有导航图标的标准样式 */
+.nav-icon {
+    font-size: 22px;
+    margin-bottom: 4px;
+    transition: transform 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.nav-item:hover .nav-icon {
+    transform: scale(1.1);
+    background-color: rgba(63, 81, 181, 0.1);
+}
+
+.nav-item.active .nav-icon {
+    color: var(--primary-color);
+    background-color: rgba(63, 81, 181, 0.15);
+}
+
+/* 添加按钮的特殊样式 */
+.nav-item[data-page="add"] .nav-icon {
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 24px;
+    box-shadow: 0 2px 8px rgba(63, 81, 181, 0.3);
+}
+
+.nav-item[data-page="add"]:hover .nav-icon {
+    transform: scale(1.1);
+    background-color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(63, 81, 181, 0.4);
+}
+
+.nav-item[data-page="add"].active .nav-icon {
+    background-color: var(--primary-color);
+    opacity: 0.9;
+}
+
+/* 从上方内容分离的视觉效果 */
+.content-wrapper {
+    height: 100%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    position: relative;
+    padding-bottom: 70px;
+}
+
+/* 确保底部元素有足够的空间 */
+.stats-section .stats-card:last-child {
+    margin-bottom: 70px;
+}
+
+/* 黑色覆盖层 */
+.dark-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.dark-overlay.visible {
+    opacity: 1;
+    display: flex;
+}
+
+/* 模态框 */
+.modal {
+    background-color: var(--card-color);
+    width: 80%;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.dark-overlay.visible .modal {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-input:focus {
+    border-color: var (--primary-color);
+    box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+    outline: none;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.modal-button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.modal-button:hover {
+    transform: translateY(-2px);
+}
+
+.modal-button:active {
+    transform: translateY(1px);
+}
+
+.cancel-btn {
+    background-color: #f5f5f5;
+    color: var(--text-color);
+}
+
+.cancel-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.confirm-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.confirm-btn:hover {
+    background-color: #303f9f;
+}
+
+/* 加载动画 */
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(63, 81, 181, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s ease-in-out infinite;
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* 页面过渡 */
+.page {
+    position: absolute;
+    width: 100%;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.page.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.page.previous {
+    transform: translateX(-100%);
+}
+
+/* 通知 */
+.notification {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 30;
+    text-align: center;
+}
+
+.notification.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* 成就的彩带动画 */
+.confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    overflow: hidden;
+    display: none;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary-color);
+    opacity: 0.8;
+    animation: fallConfetti 3s ease-in-out forwards;
+}
+
+@keyframes fallConfetti {
+    0% {
+        transform: translateY(-10px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* 更新后的航班记录样式 */
+.flight-records {
+    margin-top: 20px;
+}
+
+.record-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    border-radius: 8px;
+}
+
+.record-item:hover {
+    background-color: rgba(63, 81, 181, 0.05);
+    transform: translateX(5px);
+}
+
+.record-item:last-child {
+    border-bottom: none;
+}
+
+.record-details {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.record-date {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.record-duration {
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/* 时长输入样式 */
+.duration-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.time-part {
+    flex: 1;
+    text-align: center;
+}
+
+.time-separator {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.empty-records-message {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.empty-records-message i {
+    font-size: 32px;
+    margin-bottom: 8px;
+    color: var(--primary-color);
+    opacity: 0.5;
+}
+
+.view-more-container {
+    text-align: center;
+    margin-top: 12px;
+    padding-bottom: 8px;
+}
+
+.view-more-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0 auto;
+}
+
+.view-more-btn:hover {
+    background-color: rgba(63, 81, 181, 0.1);
+    transform: translateY(-2px);
+}
+
+.records-expanded .hidden-record {
+    display: flex;
+}
+
+.hidden-record {
+    display: none;
+}
+
+/* 添加最后一个统计卡片的边距以确保间距 */
+.stats-section .stats-card:last-child {
+    margin-bottom: 60px;
+}
+
+/* 添加日历上的通知点样式 */
+.day.has-flight.new-flight:after {
+    background-color: #f44336;
+    box-shadow: 0 0 3px rgba(244, 67, 54, 0.5);
+    animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot {
+    0% {
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.3);
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+/* 底部导航中添加航班按钮的增强样式 */
+.nav-item[data-page="add"] {
+    position: relative;
+}
+
+.nav-item[data-page="add"] .nav-icon {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 3px 8px rgba(63, 81, 181, 0.3);
+    margin-top: -10px;
+    transition: all 0.3s ease;
+}
+
+.nav-item[data-page="add"]:hover .nav-icon {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(63, 81, 181, 0.4);
+}
+
+.nav-item[data-page="add"].active .nav-icon {
+    background-color: #f44336;
+}
